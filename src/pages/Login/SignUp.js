@@ -5,6 +5,7 @@ import Loading from '../../Shared/Loading/Loading'
 import auth from '../../Firebase.init'
 import SocialLogin from "./SocialLogin";
 import { useCreateUserWithEmailAndPassword, useSendEmailVerification, useUpdateProfile } from "react-firebase-hooks/auth";
+import useToken from "../../Hooks/useToken";
 const SignUp = () => {
     const [agree, setAgree] = useState(false)
     const navigate = useNavigate()
@@ -15,10 +16,11 @@ const SignUp = () => {
 
     ] = useCreateUserWithEmailAndPassword(auth);
     const [updateProfile, updating] = useUpdateProfile(auth);
+    const [token] = useToken(user)
     const [sendEmailVerification, sending] = useSendEmailVerification(
         auth
     );
-    if (user) {
+    if (token) {
         navigate('/')
     }
     if (loading || updating || sending) {

@@ -12,7 +12,7 @@ const Order = () => {
     const navigate = useNavigate()
     useEffect(() => {
         const getOder = async () => {
-            const email = user.email;
+            const email = user?.email;
             try {
                 const url = `https://geniuscar.onrender.com/order?email=${email}`
                 const { data } = await axiosPrivate.get(url)

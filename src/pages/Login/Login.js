@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import auth from '../../Firebase.init';
+import useToken from '../../Hooks/useToken';
 import Loading from '../../Shared/Loading/Loading';
 import PageTitle from '../../Shared/PageTitle/PageTitle';
 import SocialLogin from './SocialLogin';
@@ -23,7 +24,7 @@ const Login = () => {
         loading,
         error,
     ] = useSignInWithEmailAndPassword(auth);
-
+    const [token] = useToken(user)
 
     let errorElement;
     const handleSubmit = async event => {
@@ -34,15 +35,15 @@ const Login = () => {
         await signInWithEmailAndPassword(email, password);
         const { data } = await axios.post('https://geniuscar.onrender.com/login', { email })
         localStorage.setItem('accessToken', data?.accessToken)
-        navigate(from, { replace: true })
+
     }
 
     const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(auth);
     if (loading || sending) {
         return <Loading></Loading>
     }
-    if (user) {
-
+    if (token) {
+        navigate(from, { replace: true })
     }
     if (error) {
         errorElement = <p className='text-danger'>Error: {error?.message}</p>
