@@ -12,10 +12,14 @@ const Order = () => {
     const navigate = useNavigate()
     useEffect(() => {
         const getOder = async () => {
-            const email = user?.email;
+            const email = user.email;
             try {
                 const url = `https://geniuscar.onrender.com/order?email=${email}`
-                const { data } = await axiosPrivate.get(url)
+                const { data } = await axiosPrivate.get(url, {
+                    headers: {
+                        authorization:`Bearer ${localStorage.getItem('accessToken')}`
+                    }
+                })
                 setOrder(data)
             }
             catch (error) {

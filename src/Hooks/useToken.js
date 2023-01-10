@@ -9,8 +9,9 @@ const useToken = user => {
             const email = user?.user.email;
             if (email) {
                 const { data } = await axios.post('https://geniuscar.onrender.com/login', { email })
-                localStorage.setItem('accessToken', data?.accessToken)
                 setToken(data.accessToken)
+                localStorage.setItem('accessToken', data?.accessToken)
+
 
             }
         }
